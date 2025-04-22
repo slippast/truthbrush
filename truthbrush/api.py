@@ -471,4 +471,8 @@ class Api:
         if not sess_req.json()["access_token"]:
             raise ValueError("Invalid truthsocial.com credentials provided!")
 
-        return sess_req.json()["access_token"]
+        token = sess_req.json()["access_token"]
+        with open("/app/.truthbrush_token.txt", "w") as f:
+            f.write(token)
+
+        return token
