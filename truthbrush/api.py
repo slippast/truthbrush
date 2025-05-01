@@ -3,7 +3,7 @@ from typing import Any, Iterator, List, Optional
 from loguru import logger
 from dateutil import parser as date_parse
 from datetime import datetime, timezone, date
-from curl_cffi import requests
+import curl_cffi
 import json
 import logging
 import os
@@ -67,7 +67,7 @@ class Api:
             logger.warning(f"Using token {self.auth_id}")
 
     def _make_session(self):
-        s = requests.Session()
+        s = curl_cffi.requests.Session()
         return s
 
     def _check_ratelimit(self, resp):
@@ -453,7 +453,7 @@ class Api:
                 "scope": "read",
             }
 
-            sess_req = requests.request(
+            sess_req = curl_cffi.requests.request(
                 "POST",
                 url,
                 json=payload,
@@ -464,7 +464,7 @@ class Api:
                 },
             )
             sess_req.raise_for_status()
-        except requests.RequestsError as e:
+        except curl_cffi.requests.RequestsError as e:
             logger.error(f"Failed login request: {str(e)}")
             raise SystemExit('Cannot authenticate to .')
 
