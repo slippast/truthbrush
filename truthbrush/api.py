@@ -67,7 +67,8 @@ class Api:
             logger.warning(f"Using token {self.auth_id}")
 
     def _make_session(self):
-        s = curl_cffi.requests.Session()
+        from curl_cffi import requests
+        s = requests.Session()
         return s
 
     def _check_ratelimit(self, resp):
